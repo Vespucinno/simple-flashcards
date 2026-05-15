@@ -1,0 +1,225 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #eeeeee;
+  font-family: "Intel One Mono", sans-serif;
+  box-sizing: border-box;
+}
+
+.header {
+  padding: 2rem 0;
+  font-size: clamp(20px, 5vw, 30px);
+  background-color: #1a1a1a;
+  color: aqua;
+  text-align: center;
+  line-height: 2rem;
+}
+
+.header p {
+  color: white;
+  font-size: 18px;
+  margin-top: 1rem;
+  font-family: "Quicksand", sans-serif;
+  animation: moveup 5s ease-in-out;
+}
+
+.header .about {
+  transition: 100ms ease-in-out;
+  font-size: 15px;
+  color: white;
+  text-decoration: none;
+  margin: 0.5rem;
+  border: 1px solid aqua;
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  animation: showup 5s ease-in-out;
+}
+
+.header .about:hover {
+  font-size: 18px;
+  transition: 100ms ease-in-out;
+}
+
+@keyframes showup {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes moveup {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+h3 {
+  color: white;
+  text-align: center;
+}
+
+.all-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.1 rem;
+  background-color: #eeeeee;
+}
+
+.subheader {
+  width: 100%;
+  color: #181c14;
+  text-align: center;
+  font-size: 30px;
+  margin-top: 1rem;
+  font-family: "Intel One Mono", sans-serif;
+}
+
+.card-container {
+  transition: 100ms ease-in-out;
+  width: 15rem;
+  border-radius: 1rem;
+  box-shadow: 0px 10px 8px #000;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  height: fit-content;
+  background-color: #2d2d2d;
+  margin-left: 3rem;
+}
+
+.card-container:hover {
+  transition: 100ms ease-in-out;
+  width: 16rem;
+}
+
+.card-title {
+  font-size: 30px;
+  margin: 0.5rem;
+  color: aqua;
+}
+
+.card-image {
+  width: 100%;
+  border-radius: 1rem 1rem 0 0;
+}
+
+.card-link {
+  color: white;
+  text-decoration: none;
+  margin: 0.5rem;
+  background-color: #44444e;
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: block;
+}
+.card-content {
+  font-family: "Quicksand", sans-serif;
+}
+
+.card-title,
+.card-content {
+  margin: 0.5rem 5%;
+}
+
+.detail-card-container {
+  width: 80%;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #2d2d2d;
+  border-radius: 1rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.detail-card-title {
+  font-size: 36px;
+  color: aqua;
+  margin-bottom: 1rem;
+}
+
+.detail-card-content {
+  font-size: 18px;
+  line-height: 1.5;
+}
+.detail-card-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  float: right;
+  border-radius: 1rem;
+  object-fit: cover;
+}
+
+.play-container {
+  width: 80%;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #2d2d2d;
+  border-radius: 1rem;
+  color: white;
+  text-align: center;
+}
+
+.play-title {
+  font-size: 36px;
+  color: aqua;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.play-content {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.play-start {
+  color: white;
+  text-decoration: none;
+  margin: 0.5rem;
+  background-color: #44444e;
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.ingameplay-container {
+  width: 80%;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #2d2d2d;
+  border-radius: 1rem;
+  color: white;
+  text-align: center;
+}
+
+.ingameplay-title {
+  font-size: 36px;
+  color: aqua;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.ingameplay-content {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.ingameplay-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
