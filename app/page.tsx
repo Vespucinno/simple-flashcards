@@ -1,65 +1,85 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-indigo-500 selection:text-white">
+      {/* 1. NAVIGATION BAR */}
+      <nav className="flex items-center bg-white justify-between px-6 py-4 max-w-7xl mx-auto border-b border-slate-200">
+        <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-green-500 to-green-800 bg-clip-text text-transparent">
+          ⚡ FlashCards
+        </span>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/login"
+            className="text-sm text-green-800 font-medium hover:text-green-900 transition"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Sign In
+          </Link>
+          <Link
+            href="/dashboard"
+            className="px-4 py-2 text-sm font-medium text-white bg-green-800 rounded-full hover:bg-green-900 transition shadow-sm"
           >
-            Documentation
-          </a>
+            Get Started
+          </Link>
         </div>
+      </nav>
+
+      {/* 2. HERO SECTION */}
+      <main className=" max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
+        <h1 className="bg text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6">
+          Master any subject, <br />
+          <span className="bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">
+            twice as fast.
+          </span>
+        </h1>
+        <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+          Ditch the boring stacks. Learn seamlessly with fluid 3D flashcards and
+          scientifically proven spaced repetition.
+        </p>
+        <Link
+          href="/dashboard"
+          className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-green-500 rounded-xl hover:bg-green-600 transition transform hover:-translate-y-0.5 shadow-lg gap-2 group"
+        >
+          Start Studying Free
+          <span className="group-hover:translate-x-1 transition-transform">
+            →
+          </span>
+        </Link>
       </main>
+
+      {/* 3. FEATURES GRID */}
+      <section className="bg-white border-t border-slate-200 py-20">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+            <div className="text-2xl mb-4">✨</div>
+            <h3 className="font-semibold text-lg mb-2">
+              Fluid 3D Interactivity
+            </h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Beautifully smooth card animations that make studying feel like a
+              game.
+            </p>
+          </div>
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+            <div className="text-2xl mb-4">🧠</div>
+            <h3 className="font-semibold text-lg mb-2">
+              Smart Spaced Repetition
+            </h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Our algorithm tracks your memory decay and targets your weak spots
+              automatically.
+            </p>
+          </div>
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+            <div className="text-2xl mb-4">⌨️</div>
+            <h3 className="font-semibold text-lg mb-2">Power User Shortcuts</h3>
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Fly through decks using lightning-fast keyboard controls. No mouse
+              required.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
