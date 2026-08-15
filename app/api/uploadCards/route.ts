@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import fs from "fs/promises";
-// Pindahkan mock database ke file eksternal agar tidak bentrok saat diimport di tempat lain
-import { globalDatabaseMock } from "@/lib/db";
+import prisma from "@/lib/db";
 
 async function saveImage(file: File) {
   const bytes = await file.arrayBuffer();
@@ -14,7 +13,6 @@ async function saveImage(file: File) {
   const filename = `card-${uniqueSuffix}${fileExtension}`;
 
   const uploadDir = path.join(process.cwd(), "public", "uploads");
-  // Membuat folder public/uploads jika belum ada
   await fs.mkdir(uploadDir, { recursive: true });
 
   const filePath = path.join(uploadDir, filename);
@@ -25,60 +23,68 @@ async function saveImage(file: File) {
 
 export async function POST(request: NextRequest) {
   try {
-    const formData = await request.formData();
-    const title = formData.get("title");
-    const description = formData.get("description");
-    const imageFile = formData.get("image") as File | null;
+    const body = await request.json();
+    const title = typeof body.title === "string" ? body.title : "";
+    const description =
+      typeof body.description === "string" ? body.description : "";
 
-    // 1. Basic Data Validation
-    if (!imageFile || typeof imageFile === "string") {
+    const rawCards = Array.isArray(body.cards)
+      ? body.cards
+      : Array.isArray(body.flashcards)
+        ? body.flashcards
+        : [];
+
+    const cards = rawCards
+      .map((card) => ({
+        question:
+          typeof card?.question === "string" ? card.question.trim() : "",
+        answer: typeof card?.answer === "string" ? card.answer.trim() : "",
+      }))
+      .filter((card) => card.question && card.answer);
+
+    if (typeof body.question === "string" || typeof body.answer === "string") {
+      cards.push({
+        question: typeof body.question === "string" ? body.question.trim() : "",
+        answer: typeof body.answer === "string" ? body.answer.trim() : "",
+      });
+    }
+
+    const validCards = cards.filter((card) => card.question && card.answer);
+
+    if (!title.trim() || !description.trim() || validCards.length === 0) {
       return NextResponse.json(
-        { error: "No image file uploaded." },
+        {
+          error:
+            "Title, description, and at least one valid question-answer pair are required",
+        },
         { status: 400 },
       );
     }
 
-    if (!title || !description) {
-      return NextResponse.json(
-        { error: "Title and description are required" },
-        { status: 400 },
-      );
-    }
-
-    let imageUrl = null;
-
-    if (imageFile && imageFile.size > 0) {
-      // Perbaikan Mime-Type Typo di sini
-      const validTypes = ["image/jpeg", "image/png", "image/webp"];
-      if (!validTypes.includes(imageFile.type)) {
-        return NextResponse.json(
-          {
-            error:
-              "Invalid image format. Only JPEG, PNG, and WebP are allowed.",
+    const newCard = await prisma.card.create({
+      data: {
+        title: title.trim(),
+        description: description.trim(),
+        questions: {
+          createMany: {
+            data: validCards.map((card) => ({
+              question: card.question,
+              answer: card.answer,
+            })),
           },
-          { status: 400 },
-        );
-      }
-
-      imageUrl = await saveImage(imageFile);
-    }
-
-    const newCard = {
-      id: crypto.randomUUID(),
-      image: imageUrl,
-      title: title.toString(),
-      description: description.toString(),
-      createdAt: new Date().toISOString(),
-    };
-
-    globalDatabaseMock.push(newCard);
+        },
+      },
+      include: {
+        questions: true,
+      },
+    });
 
     console.log("Saving to DB:", newCard);
 
     return NextResponse.json(
       {
         message: "Card created successfully",
-        card: newCard, // Mengembalikan objek card yang asli, bukan string teks biasa
+        card: newCard,
       },
       { status: 201 },
     );

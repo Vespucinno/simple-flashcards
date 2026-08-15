@@ -1,9 +1,14 @@
-import { globalDatabaseMock } from "@/lib/db";
+import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request, response: Response) {
+export async function GET() {
   try {
-    return NextResponse.json(globalDatabaseMock);
+    const cards = await prisma.card.findMany({
+      include: {
+        questions: true,
+      },
+    });
+    return NextResponse.json(cards);
   } catch (error) {
     return NextResponse.json(
       {

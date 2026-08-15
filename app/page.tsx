@@ -1,28 +1,10 @@
 import Link from "next/link";
-
+import Navigation from "@/components/ui/Navbar";
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-indigo-500 selection:text-white">
       {/* 1. NAVIGATION BAR */}
-      <nav className="flex items-center bg-white justify-between px-6 py-4 max-w-7xl mx-auto border-b border-slate-200">
-        <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-green-500 to-green-800 bg-clip-text text-transparent">
-          ⚡ FlashCards
-        </span>
-        <div className="flex items-center gap-4">
-          <Link
-            href="/login"
-            className="text-sm text-green-800 font-medium hover:text-green-900 transition"
-          >
-            Sign In
-          </Link>
-          <Link
-            href="/dashboard"
-            className="px-4 py-2 text-sm font-medium text-white bg-green-800 rounded-full hover:bg-green-900 transition shadow-sm"
-          >
-            Get Started
-          </Link>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* 2. HERO SECTION */}
       <main className=" max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
@@ -37,7 +19,7 @@ export default function Home() {
           scientifically proven spaced repetition.
         </p>
         <Link
-          href="/dashboard"
+          href="/flashcards"
           className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-green-500 rounded-xl hover:bg-green-600 transition transform hover:-translate-y-0.5 shadow-lg gap-2 group"
         >
           Start Studying Free
