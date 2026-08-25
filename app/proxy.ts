@@ -22,6 +22,7 @@ export function proxy(request: NextRequest) {
 // 4. Configure matcher to optimize execution paths
 export const config = {
   matcher: [
+    "/",
     /*
      * Match all request paths except for the ones starting with:
      * - api (API routes)

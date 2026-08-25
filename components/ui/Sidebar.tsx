@@ -27,7 +27,7 @@ export const Sidebar = () => {
     {
       id: 1,
       title: "+ Add Flashcards",
-      href: "/",
+      href: "/create",
     },
   ];
 

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Menu } from "lucide-react"; // Siapa tahu nanti butuh untuk custom trigger
 import { Sidebar } from "./Sidebar";
+import { FiUser } from "react-icons/fi";
 
 const Navigation = () => {
   return (
@@ -40,6 +41,7 @@ const Navigation = () => {
           >
             Get Started
           </Link>
+          <FiUser className="bg-slate-500 w-7 h-7 rounded-full" />
         </div>
 
         {/* MOBILE MENU */}

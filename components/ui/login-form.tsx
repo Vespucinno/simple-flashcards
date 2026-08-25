@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { checkPassword } from "@/app/action";
 
 export function LoginForm({
   className,
@@ -22,9 +23,24 @@ export function LoginForm({
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [hasError, setHasError] = useState(false);
+  const [loading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setHasError(false);
+
+    const result = await checkPassword(username, password);
+
+    setIsLoading(false);
+
+    if (!result.success) {
+      setHasError(true);
+      setErrorMessage(result.message);
+      return;
+    }
 
     if (!username || !email || !password) {
       console.error("Missing required fields");
@@ -41,10 +57,7 @@ export function LoginForm({
       });
 
       if (res.ok) {
-        console.log("Login successful");
         router.push("/");
-      } else {
-        console.error("Login failed");
       }
     } catch (error) {
       console.error(error);
@@ -98,11 +111,22 @@ export function LoginForm({
           </div>
           <Input
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (hasError) setHasError(false);
+            }}
             id="password"
             type="password"
             required
+            className={`border rounded-md p-2 outline-none transition-colors ${
+              hasError
+                ? "border-red-500 focus:ring-red-500"
+                : "border-gray-300 focus:ring-blue-500"
+            }`}
           />
+          {hasError && (
+            <span className="text-xs text-red-600">Incorrect Password</span>
+          )}
         </Field>
         <Field>
           <Button type="submit" className="bg-green-500 hover:bg-green-600">
