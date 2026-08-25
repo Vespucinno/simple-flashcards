@@ -41,7 +41,6 @@ const Navigation = () => {
           >
             Get Started
           </Link>
-          <FiUser className="bg-slate-500 w-7 h-7 rounded-full" />
         </div>
 
         {/* MOBILE MENU */}
