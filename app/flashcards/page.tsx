@@ -10,7 +10,6 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { flashcards } from "@/data/flashcards";
-import Navigation from "@/components/ui/Navbar";
 
 interface CardData {
   id: string;
@@ -51,7 +50,6 @@ export default function Flashcards() {
   return (
     <div>
       {/* 1. NAVIGATION BAR */}
-      <Navigation />
 
       {/* 2. HERO SECTION */}
       <div className="px-6 pt-20 pb-16 text-center bg-slate-50">

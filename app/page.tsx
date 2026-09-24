@@ -1,12 +1,9 @@
 import Link from "next/link";
-import Navigation from "@/components/ui/Navbar";
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-indigo-500 selection:text-white">
-      {/* 1. NAVIGATION BAR */}
-      <Navigation />
-
-      {/* 2. HERO SECTION */}
+      {/* HERO SECTION */}
       <main className=" max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
         <h1 className="bg text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6">
           Master any subject, <br />

@@ -14,12 +14,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkPassword } from "@/app/action";
+import { useAuth } from "@/context/AuthContext";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const router = useRouter();
+  const { checkAuth } = useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -57,6 +59,8 @@ export function LoginForm({
       });
 
       if (res.ok) {
+        await checkAuth();
+        router.refresh();
         router.push("/");
       }
     } catch (error) {

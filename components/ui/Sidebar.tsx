@@ -1,17 +1,24 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { FiUser } from "react-icons/fi";
+import type { AuthUser } from "@/lib/auth-types";
+import { LogoutButton } from "./LogoutButton";
 
-export const Sidebar = () => {
+type SidebarProps = {
+  isLoggedIn: boolean;
+  user: AuthUser | null;
+};
+
+export function Sidebar({ isLoggedIn, user }: SidebarProps) {
   const [open, setOpen] = useState(false);
-  const isLoggedIn = false; // TEMPORARY FOR TESTING NAVBAR AUTH[cite: 2]
 
   const toggleButton = () => {
     setOpen(!open);
   };
 
-  // Mengunci scroll layar utama ketika menu mobile sedang terbuka
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -33,7 +40,6 @@ export const Sidebar = () => {
 
   return (
     <div className="flex md:hidden">
-      {/* TOMBOL HAMBURGER / X */}
       <button
         onClick={toggleButton}
         className="relative z-50 p-2 text-slate-700 hover:text-slate-900 transition-colors focus:outline-none"
@@ -42,7 +48,6 @@ export const Sidebar = () => {
         {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
 
-      {/* MENU NAVIGASI OVERLAY (Full Screen Mobile) */}
       <div
         className={`fixed inset-0 top-16 z-40 w-full bg-white/95 backdrop-blur-lg transition-all duration-300 ease-in-out md:hidden ${
           open
@@ -51,7 +56,6 @@ export const Sidebar = () => {
         }`}
       >
         <div className="flex flex-col gap-5 p-6 border-t border-slate-100 bg-white">
-          {/* Navigasi Links */}
           {links.map((link) => (
             <Link
               key={link.id}
@@ -63,11 +67,20 @@ export const Sidebar = () => {
             </Link>
           ))}
 
-          {/* Garis Pembatas internal untuk memisahkan menu biasa & Auth */}
-          {!isLoggedIn && <div className="h-px bg-slate-100 my-1" />}
+          <div className="h-px bg-slate-100 my-1" />
 
-          {/* Menu Autentikasi */}
-          {!isLoggedIn && (
+          {isLoggedIn ? (
+            <div className="flex flex-col gap-3 w-full">
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 text-slate-700 font-medium">
+                <FiUser className="w-5 h-5 text-emerald-600" />
+                <span>{user?.username || "Profile"}</span>
+              </div>
+              <LogoutButton
+                onLoggedOut={() => setOpen(false)}
+                className="flex items-center justify-center gap-2 text-base font-medium text-center text-red-600 hover:text-red-700 py-3 rounded-xl bg-red-50 hover:bg-red-100 transition-colors"
+              />
+            </div>
+          ) : (
             <div className="flex flex-col gap-3 w-full">
               <Link
                 href="/login"
@@ -89,4 +102,6 @@ export const Sidebar = () => {
       </div>
     </div>
   );
-};
+}
+
+export default Sidebar;
