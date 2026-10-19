@@ -4,6 +4,7 @@ import { Button } from "./button";
 import { Textarea } from "./textarea";
 import { useRef, useState } from "react";
 import { FiCheck } from "react-icons/fi";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface Flashcard {
@@ -21,8 +22,12 @@ export default function InputFlashcards() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmittingRef = useRef(false);
 
   const onSubmit = async () => {
+    if (isSubmittingRef.current) return;
+
     const sanitizedCards = flashcards
       .map((card) => ({
         question: card.question.trim(),
@@ -39,6 +44,9 @@ export default function InputFlashcards() {
       window.alert("Please add at least one question and answer pair.");
       return;
     }
+
+    isSubmittingRef.current = true;
+    setIsSubmitting(true);
 
     try {
       const response = await fetch("/api/uploadCards", {
@@ -70,6 +78,9 @@ export default function InputFlashcards() {
       window.alert(
         error instanceof Error ? error.message : "Something went wrong.",
       );
+    } finally {
+      isSubmittingRef.current = false;
+      setIsSubmitting(false);
     }
   };
 
@@ -83,14 +94,15 @@ export default function InputFlashcards() {
     );
   };
 
-  const duplicateCard = (id: number) => {
+  const addCard = (id: number) => {
     setFlashcards((prev) => {
       const index = prev.findIndex((card) => card.id === id);
       if (index === -1) return prev;
       const copy = [...prev];
       copy.splice(index + 1, 0, {
-        ...copy[index],
         id: nextId.current++,
+        question: "",
+        answer: "",
       });
       return copy;
     });
@@ -157,7 +169,7 @@ export default function InputFlashcards() {
             <Button
               variant="default"
               className="w-20 sm:w-24 md:w-28 h-8 sm:h-9 md:h-10 text-xs sm:text-sm bg-green-500 text-white hover:bg-green-600"
-              onClick={() => duplicateCard(card.id)}
+              onClick={() => addCard(card.id)}
             >
               More
             </Button>
@@ -170,10 +182,19 @@ export default function InputFlashcards() {
       <button
         type="button"
         onClick={onSubmit}
-        className="sticky float-right mr-5 mb-5 flex items-center justify-center bg-green-500 text-white rounded-full w-14 h-14 shadow-lg hover:bg-green-600 transition"
+        disabled={isSubmitting}
+        className={`sticky float-right mr-5 mb-5 flex items-center justify-center bg-green-500 text-white rounded-full w-14 h-14 shadow-lg transition ${
+          isSubmitting
+            ? "opacity-60 cursor-not-allowed"
+            : "hover:bg-green-600 cursor-pointer"
+        }`}
         aria-label="Create flashcard"
       >
-        <FiCheck className="text-3xl" />
+        {isSubmitting ? (
+          <Loader2 className="text-3xl animate-spin" />
+        ) : (
+          <FiCheck className="text-3xl" />
+        )}
       </button>
     </div>
   );

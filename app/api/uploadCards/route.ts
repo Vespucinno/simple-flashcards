@@ -81,6 +81,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Prevent accidental duplicate card creation if requests are sent in close succession
+    const recentDuplicate = await prisma.card.findFirst({
+      where: {
+        title: title.trim(),
+        description: description.trim(),
+        createdAt: {
+          gte: new Date(Date.now() - 5000),
+        },
+      },
+      include: {
+        questions: true,
+      },
+    });
+
+    if (recentDuplicate) {
+      return NextResponse.json(
+        {
+          message: "Card created successfully",
+          card: recentDuplicate,
+        },
+        { status: 200 },
+      );
+    }
+
     const newCard = await prisma.card.create({
       data: {
         title: title.trim(),
